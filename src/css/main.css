@@ -4,6 +4,7 @@
 @theme {
   --color-primary: #758E4F;
   --color-brand: #5C80CB;
+  --color-text: whitesmoke;
   --font-sans: "Lato", sans-serif;
   --font-heading: "Prompt", sans-serif;
 }
