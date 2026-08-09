@@ -45,10 +45,6 @@ const formatDate = (dateString: string): string => {
             {{ formatDate(post.date) }}
           </time>
 
-          <p class="text-zinc-400 text-sm mb-2">
-            By {{ post.author }}
-          </p>
-
           <p class="text-zinc-300 mt-4 mb-4">
             {{ post.description }}
           </p>

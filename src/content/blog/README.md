@@ -17,7 +17,6 @@ Every post must start with YAML frontmatter delimited by `---` lines. The follow
 | ------------- | -------- | ------------------------------------------------------ |
 | `title`       | Yes      | The title of the post, shown in lists and on the page. |
 | `date`        | Yes      | Publication date in `YYYY-MM-DD` format. Used to sort. |
-| `author`      | Yes      | The author's name.                                     |
 | `description` | No       | A short summary shown on the blog listing page.        |
 
 ### Example
@@ -27,7 +26,6 @@ Every post must start with YAML frontmatter delimited by `---` lines. The follow
 title: "My First Post"
 date: "2024-01-01"
 description: "A short summary of this post."
-author: "Sam Freund"
 ---
 
 Your markdown content goes here.

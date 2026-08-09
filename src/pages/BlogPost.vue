@@ -11,7 +11,6 @@ const post = getBlogPost(slug);
 const error = post === null;
 const title = post?.title ?? '';
 const date = post?.date ?? '';
-const author = post?.author ?? '';
 const htmlContent = post ? (marked(post.body) as string) : '';
 
 // Format date string (YYYY-MM-DD) to readable format, avoiding timezone issues
@@ -41,7 +40,6 @@ const formatDate = (dateString: string): string => {
         <header class="mb-8">
           <h1 class="text-4xl font-bold mb-4" style="color: var(--color-brand)">{{ title }}</h1>
           <time class="text-zinc-400">{{ formatDate(date) }}</time>
-          <p class="text-zinc-400 text-sm">By {{ author }}</p>
         </header>
 
         <div class="markdown-content" v-html="htmlContent"></div>
