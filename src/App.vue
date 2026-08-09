@@ -4,22 +4,22 @@ import { useRoute } from "vue-router";
 
 const sectionLinks = [
   {
-    href: "#about",
+    href: "/#about",
     label: "About",
     icon: "fa-solid fa-user",
   },
   {
-    href: "#skills",
+    href: "/#skills",
     label: "Skills",
     icon: "fa-solid fa-code",
   },
   {
-    href: "#projects",
+    href: "/#projects",
     label: "Projects",
     icon: "fa-solid fa-folder-open",
   },
   {
-    href: "#contact",
+    href: "/#contact",
     label: "Contact",
     icon: "fa-solid fa-envelope",
   },
