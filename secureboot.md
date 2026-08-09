@@ -323,6 +323,15 @@ mcopy -o -i /dev/sda2 localfile ::/sbfix/remotefile
 
 (If the host later can't see files written this way, `sync` or remount.)
 
+For filled up NVRAM, identifiable with the below error:
+```
+cannot create sbatlevelrt: volume full
+could not create MokListTrustedRT: Volume Full
+something has gone seriously wrong import_mok_state(): Volume Full
+```
+
+flash a windows image to a USB (this can boot since it doesn't need to load a shim into NVRAM). Then, build an EXE with [this script](https://gist.github.com/samfreund/6398280deb8c8950f5210b41c1489a33), and run it on the device. If the script doesn't clear enough space, adjust the files it's clearing. You'll have to re-enroll the MOK key after this, I recommmend an ubuntu live usb. 
+
 # Maintenance notes
 
 - Kernel updates: the sbctl pacman hook re-signs all files.json entries
