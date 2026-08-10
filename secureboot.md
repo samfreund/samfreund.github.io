@@ -105,30 +105,48 @@ requires rebuilding the ISO:
    sbctl sign -s /mnt/esp/EFI/BOOT/grubx64.efi
    cp shimx64.efi.signed.latest /mnt/esp/EFI/BOOT/BOOTx64.EFI
    cp mmx64.efi /mnt/esp/EFI/BOOT/mmx64.efi
-   cp /var/lib/sbctl/keys/db/db.pem /mnt/esp/db.cer                 # for MOK enrollment
    openssl x509 -in /var/lib/sbctl/keys/db/db.pem -outform DER -out /mnt/esp/db-der.cer
    umount /mnt/esp
    ```
-4. Rebuild the hybrid ISO (partition layout from
-   `xorriso -indev orig.iso -report_el_torito as_mkisofs`; `isohdpfx.bin` =
-   first 32 sectors of the original ISO):
+4. Rebuild the hybrid ISO — the volume label and BIOS El Torito flags are read
+   back from the original ISO, so this works for any CachyOS ISO version
+   (change `ISO`). The original's UEFI entry is discarded and replaced with the
+   patched ESP. `isohdpfx.bin` = first 32 sectors of the original ISO:
    ```
-   dd if=cachyos-desktop-linux-260628.iso of=isohdpfx.bin bs=512 count=32
-   xorriso -as mkisofs -r -V 'COS_202606' \
+   ISO=cachyos-desktop-linux-YOUR_VERSION_HERE.iso
+   LABEL="$(xorriso -indev "$ISO" -pvd_info 2>/dev/null | \
+     sed -n "s/^Volume Id[[:space:]]*:[[:space:]]*//p")"
+   dd if="$ISO" of=isohdpfx.bin bs=512 count=32
+   mapfile -t ELTORITO < <(xorriso -indev "$ISO" -report_el_torito as_mkisofs 2>/dev/null | \
+     awk '
+       /^--modification-date=/ { next }
+       $1 == "-V" { next }
+       $1 == "-eltorito-alt-boot" { exit }
+       { for (i = 1; i <= NF; i++) { gsub(/'"'"'/, "", $i); print $i } }')
+   xorriso -as mkisofs -r -V "$LABEL" \
      -isohybrid-mbr isohdpfx.bin \
      -partition_cyl_align off -partition_offset 16 --mbr-force-bootable \
      -append_partition 2 0xef esp.img \
      -iso_mbr_part_type 0x00 \
-     -c /boot/syslinux/boot.cat -b /boot/syslinux/isolinux.bin \
-     -no-emul-boot -boot-load-size 4 -boot-info-table \
      -isohybrid-gpt-basdat \
+     "${ELTORITO[@]}" \
      -eltorito-alt-boot -e --interval:appended_partition_2:all:: -no-emul-boot \
-     -output cachyos-signed.iso isoroot
+     -output "${ISO%.iso}-signed.iso" isoroot
    ```
+   Notes on the derivation:
+   - `-pvd_info` prints `Volume Id : <label>` (unquoted); that becomes `-V`.
+   - The report's `--modification-date`, `-V`, and UEFI entry
+     (`-eltorito-alt-boot` onward) are dropped.
+   - Each remaining line is split into separate tokens — `-c` and
+     `/boot/syslinux/boot.cat` must be two argv elements, or the mkisofs
+     emulation rejects the command.
+   - Resulting `ELTORITO` = `-c /boot/syslinux/boot.cat -b
+     /boot/syslinux/isolinux.bin -no-emul-boot -boot-load-size 4
+     -boot-info-table`, byte-identical in effect to the original's BIOS entry.
 5. Flash and verify **byte-for-byte** (mount-based checks misled us once due
    to a stale stacked mount; compare hashes of raw regions instead):
    ```
-   dd if=cachyos-signed.iso of=/dev/sdX bs=4M conv=fsync
+   dd if="${ISO%.iso}-signed.iso" of=/dev/sdX bs=4M conv=fsync
    dd if=/dev/sdX bs=512 skip=<part2 start> count=47104 | sha256sum   # must equal sha256 of esp.img
    ```
 
