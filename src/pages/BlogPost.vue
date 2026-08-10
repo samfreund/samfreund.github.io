@@ -1,8 +1,21 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { marked } from 'marked';
+import { Marked } from 'marked';
+import { markedHighlight } from 'marked-highlight';
+import hljs from 'highlight.js/lib/common';
 import { getBlogPost } from '../utils/blog';
+import 'highlight.js/styles/github-dark.css';
 import '../css/markdown.css';
+
+const marked = new Marked(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code, lang) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    },
+  }),
+);
 
 const route = useRoute();
 const slug = route.params.slug as string;
@@ -11,7 +24,7 @@ const post = getBlogPost(slug);
 const error = post === null;
 const title = post?.title ?? '';
 const date = post?.date ?? '';
-const htmlContent = post ? (marked(post.body) as string) : '';
+const htmlContent = post ? marked.parse(post.body) : '';
 
 // Format date string (YYYY-MM-DD) to readable format, avoiding timezone issues
 const formatDate = (dateString: string): string => {
