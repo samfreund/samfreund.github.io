@@ -60,7 +60,8 @@ umount /mnt/iso
 # We also need to sign the kernels for them to be loadable
 sbctl sign -s isoroot/arch/boot/x86_64/vmlinuz-linux-cachyos
 sbctl sign -s isoroot/arch/boot/x86_64/vmlinuz-linux-cachyos-lts
-sbctl sign -s isoroot/shellx64.efi isoroot/boot/memtest86+/memtest.efi
+sbctl sign -s isoroot/shellx64.efi
+sbctl sign -s isoroot/boot/memtest86+/memtest.efi
 ```
 
 After all the kernels have been signed, we'll need to build a custom ESP image with our new bootloader executables. 
@@ -82,7 +83,7 @@ cp -r /var/lib/sbctl/ /mnt/esp/sbctl-copy
 openssl x509 -in /mnt/esp/sbctl-copy/keys/db/db.pem -outform DER -out /mnt/esp/db-der.cer
 git clone https://github.com/samfreund/cachy-secure-boot.git
 mkdir -p /mnt/esp/scripts
-cp cachy-secure-boot/mount.sh /mnt/esp/scripts
+cp cachy-secure-boot/*.sh /mnt/esp/scripts
 umount /mnt/esp
 ```
 
@@ -100,12 +101,12 @@ mapfile -t ELTORITO < <(xorriso -indev "$ISO" -report_el_torito as_mkisofs 2>/de
     $1 == "-eltorito-alt-boot" { exit }
     { for (i = 1; i <= NF; i++) { gsub(/'"'"'/, "", $i); print $i } }')
 xorriso -as mkisofs -r -V "$LABEL" \
+  "${ELTORITO[@]}" \
   -isohybrid-mbr isohdpfx.bin \
   -partition_cyl_align off -partition_offset 16 --mbr-force-bootable \
   -append_partition 2 0xef esp.img \
   -iso_mbr_part_type 0x00 \
   -isohybrid-gpt-basdat \
-  "${ELTORITO[@]}" \
   -eltorito-alt-boot -e --interval:appended_partition_2:all:: -no-emul-boot \
   -output "${ISO%.iso}-signed.iso" isoroot
 ```
