@@ -151,11 +151,7 @@ The mounting script assumes you're using a single NVMe SSD, if not you'll need t
 Note that if you've just completed the install, it may not be necessary to unlock your LUKS partition.
 
 Once you've mounted everything, copy the scripts, signing keys, and shims into the installed filesystem with `copy.sh`.
-Now that our filesystem is prepped, we can go ahead and enter it by running the following command.
-
-```
-arch-chroot /mnt
-```
+Now that our filesystem is prepped, we can go ahead and enter it by running `arch-chroot /mnt`.
 
 Now that we're in the chroot, we'll need to install our grub config and sign those binaries as well.
 We do this by running `grub-sign.sh`.
