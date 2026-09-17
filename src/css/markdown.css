@@ -1,0 +1,126 @@
+.markdown-content {
+  line-height: 1.75;
+}
+
+.markdown-content h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: var(--color-brand);
+}
+
+.markdown-content h2 {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+}
+
+.markdown-content h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.markdown-content p {
+  margin-bottom: 1rem;
+  color: var(--color-text);
+  line-height: 1.75;
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.markdown-content ul li {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.markdown-content strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+@media (min-width: 768px) {
+  .markdown-content h1 {
+    font-size: 3rem;
+  }
+}
+.markdown-content blockquote {
+  border-left: 4px solid var(--color-primary);
+  margin-left: 0;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  color: var(--color-text);
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.markdown-content code {
+  background-color: #27272a;
+  padding: 0.15em 0.35em;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}
+
+.markdown-content pre {
+  background-color: #27272a;
+  border: 1px solid #3f3f46;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0 1.5rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.markdown-content pre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+.markdown-content pre code.hljs {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  overflow-x: visible;
+}
+
+.code-block {
+  position: relative;
+}
+
+.code-block .copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 1;
+  background-color: #3f3f46;
+  color: #d4d4d8;
+  border: 1px solid #52525b;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-family: inherit;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.code-block .copy-btn:hover {
+  opacity: 1;
+  background-color: #52525b;
+}

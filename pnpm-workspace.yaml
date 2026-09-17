@@ -1,0 +1,3 @@
+allowBuilds:
+  '@toolwind/anchors': true
+  esbuild: true
