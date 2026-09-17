@@ -46,13 +46,18 @@ const projects = [
     icon: "fa-solid fa-camera",
     title: "PhotonVision",
     description:
-      "As a developer and maintainer of this open-source computer vision platform, I contribute to a project that empowers over 1,000 FIRST Robotics Competition teams worldwide. My work includes a complete overhaul of the object detection pipeline, adding support for the Rubik Pi 3, standardizing the web API for consistency, and publishing real-time metrics through NetworkTables. I also helped establish code review processes and enhanced CI/CD pipelines to improve security and code quality.",
+      "As a lead maintainer of this open-source computer vision platform, I contribute to a project that empowers over 1,000 FIRST Robotics Competition teams worldwide. My work includes a complete overhaul of the object detection pipeline, adding support for the Rubik Pi 3, standardizing the web API for consistency, and publishing real-time metrics through NetworkTables. I also helped establish code review processes and enhanced CI/CD pipelines to improve security and code quality.",
   },
   {
     icon: "fa-solid fa-rocket",
     title: "NASA Lunabotics Robot",
     description:
       "Leading the controls team for MSOE's entry in the NASA Lunabotics competition, where we're developing an autonomous excavation robot designed to operate in simulated lunar conditions. I'm responsible for architecting and implementing the control systems, with a focus on achieving real-time performance and reliable operation in challenging environments.",
+  },
+  {
+  icon: "fa-solid fa-file-code",
+  title: "FRCSoftware",
+  description: "I serve as a project lead for this FIRST Robotics Competition learning guide, a site dedicated to providing a comprehensive introduction to programming for students involved in FRC. We give students a path from no coding experience to building a fully functioning robot that they can simulate and control.",
   },
 ];
 
@@ -103,9 +108,9 @@ const socialLinks = [
             class="text-xl md:text-2xl max-w-128 text-zinc-300 leading-relaxed px-4 md:px-8"
           >
             I'm an undergraduate computer science student at MSOE with a
-            background in real-world application and iterative development. I'm
+            background in robotics applications and open-source development. I'm
             currently serving as the Controls Lead for the NASA Lunabotics team
-            at MSOE and a developer and maintainer for PhotonVision, an
+            at MSOE and a lead maintainer for PhotonVision, an
             open-source computer vision platform used by over 1000 robotics
             teams.
           </div>
@@ -141,7 +146,7 @@ const socialLinks = [
       id="skills"
       description="I specialize in full-stack development with expertise across modern technologies and frameworks. Here are some of the areas where I excel."
       :features="skills"
-      :columns="2"
+      :columns="3"
       show-scroll-indicator
       scroll-target="#projects"
     >
@@ -154,7 +159,7 @@ const socialLinks = [
       id="projects"
       description="Here are some of my recent projects that showcase my skills and experience. Each project represents a unique challenge and learning opportunity."
       :features="projects"
-      :columns="2"
+      :columns="3"
       reverse-cards
     >
       <template #title>
